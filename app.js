@@ -31,20 +31,12 @@ async function trySwitch () {
         default:
             return false;
     }
-
     return true;
 }
 
 while (true) {
-    // trySwitch()
-    //     .then((result) => { if (result === false) {
-    //         return console.log('...done.')
-    //     }})
-    //     .catch(console.error);
-
     try {
         const result = await trySwitch();
-
         if (result === false) {
             break;
         }
@@ -52,5 +44,3 @@ while (true) {
         console.log(e);
     }
 }
-
-// trySwitch();

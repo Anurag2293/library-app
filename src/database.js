@@ -17,20 +17,14 @@ export async function insertBooks () {
     console.log('Enter Author Name : ');
     const authorName = String(readline.question());
 
-    connect(client, dbName)
-        .then(async (collection) => {
-            const insertResult = await insertBooksHelper(collection, {
-                name: bookName,
-                author: authorName
-            });
-            
-            if (insertResult === true) {
-                return console.log('Inserted Book Successfully');
-            }
-            console.log('There was some error. Please try again.')
-        })
-        .catch(console.error)
-        .finally(() => client.close());
+    try {
+        const collection = await connect(client, dbName);
+        await insertBooksHelper(collection, {name: bookName, author: authorName});
+    } catch (e) {
+        console.log(e)
+    } finally {
+        client.close()
+    }
 }
 
 export async function findBooks () {
@@ -40,15 +34,7 @@ export async function findBooks () {
 
     try {
         const collection = await connect(client, dbName);
-        const books = await findBooksHelper(collection, authorName);
-
-        if (books.length === 0) {
-            return console.log('No books of the given author exist.')
-        }
-        let i = 1;
-        books.forEach(book => {
-            console.log(i++ + '. ' + book.name + ' by ' + book.author);
-        });
+        await findBooksHelper(collection, authorName);       
     } catch (e) {
         console.log(e)
     } 
@@ -101,3 +87,20 @@ export async function deleteBooks () {
         client.close();
     }
 }
+
+/**
+ * connect(client, dbName)
+        .then(async (collection) => {
+            const insertResult = await insertBooksHelper(collection, {
+                name: bookName,
+                author: authorName
+            });
+            
+            if (insertResult === true) {
+                return console.log('Inserted Book Successfully');
+            }
+            console.log('There was some error. Please try again.')
+        })
+        .catch(console.error)
+        .finally(() => client.close());
+ */
