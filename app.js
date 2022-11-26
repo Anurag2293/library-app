@@ -1,17 +1,19 @@
 import readline from 'readline-sync';
+import chalk from 'chalk';
 import { insertBooks, findBooks, updateBooks, deleteBooks } from "./src/database.js";
 
 const print = console.log;
 
-async function trySwitch () {
-    print('----------------------------------------------------------------')
-    print('Welcome to Library!')
-    print('Input following numbers for the corresponding options')
-    print('and 5 to exit.')
-    print('1 : Add a new book')
-    print('2 : List books')
-    print('3 : Update a book')
-    print('4 : Delete a book')
+async function main () {
+    print(' ------------------------------------------------------')
+    print('|' + chalk.bold('Welcome to Library!') + '                                   |')
+    print('|Input following numbers for the corresponding options |')
+    print('|and 5 to exit.                                        |')
+    print('|1 : Add a new book                                    |')
+    print('|2 : List books                                        |')
+    print('|3 : Update a book                                     |')
+    print('|4 : Delete a book                                     |')
+    print(' ------------------------------------------------------')
 
     let input = Number(readline.question())
 
@@ -36,7 +38,7 @@ async function trySwitch () {
 
 while (true) {
     try {
-        const result = await trySwitch();
+        const result = await main();
         if (result === false) {
             break;
         }
